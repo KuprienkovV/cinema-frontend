@@ -10,6 +10,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
 
+  css: ['~/assets/main.scss'],
+
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE,

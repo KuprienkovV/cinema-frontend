@@ -1,0 +1,15 @@
+@use 'scss-reset';
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: Open Sans;
+  font-weight: 400;
+  font-style: Regular;
+  line-height: 100%;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
