@@ -3,6 +3,6 @@ import { getServerUrl } from '~/server/utils/url'
 
 export default defineEventHandler(async (event) => {
   const cinemaId = getRouterParam(event, 'cinemaId')
-  return await $fetch<MovieSession[]>(getServerUrl(`/cinemas/${cinemaId}/sessions`))
+  return await event.$fetch<MovieSession[]>(getServerUrl(`/cinemas/${cinemaId}/sessions`))
 })
 

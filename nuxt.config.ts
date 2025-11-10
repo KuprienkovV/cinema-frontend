@@ -7,7 +7,8 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    'nuxt-toast',
   ],
 
   css: ['~/assets/main.scss'],
@@ -19,6 +20,7 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': { redirect: { to: '/movies', statusCode: 308 } }
+    '/': { redirect: { to: '/movies', statusCode: 308 } },
+    '/auth': { redirect: { to: '/auth/login', statusCode: 308 } }
   },
 })

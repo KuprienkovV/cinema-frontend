@@ -2,7 +2,9 @@
   <div class="wrapper">
     <div class="container">
       <SideNavigation />
-      <slot />
+      <div class="content">
+        <slot />
+      </div>
     </div>
   </div>
 </template>
@@ -21,5 +23,14 @@
   height: 85vh;
   border: 2px solid #fff;
   display: flex;
+}
+
+.content {
+  flex: 1;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
