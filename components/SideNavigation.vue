@@ -54,7 +54,7 @@ const logout = async () => {
   gap: 9px;
   min-width: 172px;
   width: fit-content;
-  height: 80%;
+  height: 80vh;
   border: 1px solid #9e9e9e;
   padding-top: 36px;
 }
