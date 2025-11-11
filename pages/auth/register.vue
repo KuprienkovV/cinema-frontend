@@ -20,6 +20,11 @@ definePageMeta({
 const toast = useToast()
 const submitting = ref(false)
 const submitError = ref('')
+const session = useState<{ authenticated: boolean }>('auth-session')
+
+if (session.value?.authenticated) {
+  await navigateTo('/movies')
+}
 
 const handleSubmit = async (payload: {
   username: string
@@ -40,7 +45,7 @@ const handleSubmit = async (payload: {
       title: 'Успех',
       message: 'Вы успешно зарегистрировались.',
     })
-    await refreshNuxtData('auth-session')
+    session.value = { authenticated: true }
     await navigateTo('/movies')
   } catch (error: any) {
     submitError.value =

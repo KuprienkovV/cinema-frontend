@@ -5,20 +5,19 @@ export default defineNuxtRouteMiddleware(async (to) => {
       query: { redirect: to.fullPath },
     })
 
-  if (process.server) {
-    const token = useCookie('token')
-    if (!token.value) {
-      return redirectToLogin()
+  const session = useState<{ authenticated: boolean }>('auth-session')
+
+  if (session.value === undefined) {
+    try {
+      const headers = process.server ? useRequestHeaders(['cookie']) : undefined
+      const data = await $fetch<{ authenticated: boolean }>('/api/auth/session', { headers })
+      session.value = data
+    } catch {
+      session.value = { authenticated: false }
     }
-    return
   }
 
-  try {
-    const { authenticated } = await $fetch<{ authenticated: boolean }>('/api/auth/session')
-    if (!authenticated) {
-      return redirectToLogin()
-    }
-  } catch {
+  if (!session.value?.authenticated) {
     return redirectToLogin()
   }
 })

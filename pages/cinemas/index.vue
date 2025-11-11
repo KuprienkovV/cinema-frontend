@@ -4,6 +4,7 @@
       :columns="columns"
       item-key="id"
       empty-text="Нет доступных кинотеатров"
+      :show-header="true"
     >
       <template #cell-name="{ item }: { item: Cinema }">
         <span class="cinema-name">{{ item.name }}</span>

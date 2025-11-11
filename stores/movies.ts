@@ -24,8 +24,8 @@ export const useMoviesStore = defineStore('movies', {
       try {
         const data = await $fetch<Movie[]>('/api/movies')
         this.movies = data
-      } catch (error) {
-        this.error = error
+      } catch (error: any) {
+        this.error = error?.data?.message ?? error?.message ?? 'Не удалось загрузить фильмы'
       } finally {
         this.loading = false
       }

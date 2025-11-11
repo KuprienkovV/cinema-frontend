@@ -4,6 +4,7 @@
       :columns="columns"
       item-key="id"
       empty-text="Нет доступных фильмов"
+      :show-header="true"
     >
       <template #cell-poster="{ item }: { item: Movie }">
         <NuxtImg

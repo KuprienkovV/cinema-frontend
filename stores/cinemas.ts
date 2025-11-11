@@ -24,8 +24,8 @@ export const useCinemasStore = defineStore('cinemas', {
       try {
         const data = await $fetch<Cinema[]>('/api/cinemas')
         this.cinemas = data
-      } catch (error) {
-        this.error = error
+      } catch (error: any) {
+        this.error = error?.data?.message ?? error?.message ?? 'Не удалось загрузить кинотеатры'
       } finally {
         this.loading = false
       }

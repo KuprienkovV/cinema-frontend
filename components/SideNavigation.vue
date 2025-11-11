@@ -24,14 +24,10 @@
 const navLinks = [
   { route: '/movies', text: 'Фильмы' },
   { route: '/cinemas', text: 'Кинотеатры' },
-  { route: '/bookings', text: 'Мои билеты' },
+  { route: '/me/bookings', text: 'Мои билеты' },
 ]
 
-const sessionKey = 'auth-session'
-const { data: session, refresh } = await useAsyncData(sessionKey, () =>
-  $fetch<{ authenticated: boolean }>('/api/auth/session')
-)
-
+const session = useState<{ authenticated: boolean }>('auth-session')
 const isAuthorized = computed(() => Boolean(session.value?.authenticated))
 
 const toast = useToast()
@@ -42,7 +38,7 @@ const logout = async () => {
     title: 'Выход',
     message: 'Вы успешно вышли из системы.',
   })
-  await refresh()
+  session.value = { authenticated: false }
   await navigateTo('/movies')
 }
 </script>

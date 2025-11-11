@@ -67,8 +67,9 @@ export const useSessionsStore = defineStore('sessions', {
       try {
         const data = await $fetch<MovieSession[]>(`/api/movies/${movieId}/sessions`)
         this.upsertManyBase(data)
-      } catch (error) {
-        this.error = error
+      } catch (error: any) {
+        this.error =
+          error?.data?.message ?? error?.message ?? 'Не удалось загрузить сеансы фильма'
       } finally {
         this.loading = false
       }
@@ -83,8 +84,9 @@ export const useSessionsStore = defineStore('sessions', {
       try {
         const data = await $fetch<MovieSession[]>(`/api/cinemas/${cinemaId}/sessions`)
         this.upsertManyBase(data)
-      } catch (error) {
-        this.error = error
+      } catch (error: any) {
+        this.error =
+          error?.data?.message ?? error?.message ?? 'Не удалось загрузить сеансы кинотеатра'
       } finally {
         this.loading = false
       }
@@ -100,8 +102,9 @@ export const useSessionsStore = defineStore('sessions', {
       try {
         const details = await $fetch<MovieSessionDetails>(`/api/movieSessions/${sessionId}`)
         this.upsertDetails(details)
-      } catch (error) {
-        this.error = error
+      } catch (error: any) {
+        this.error =
+          error?.data?.message ?? error?.message ?? 'Не удалось загрузить детали сеанса'
       } finally {
         this.loading = false
       }

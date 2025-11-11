@@ -21,6 +21,11 @@ const route = useRoute()
 const toast = useToast()
 const submitting = ref(false)
 const submitError = ref('')
+const session = useState<{ authenticated: boolean }>('auth-session')
+
+if (session.value?.authenticated) {
+  await navigateTo('/movies')
+}
 
 const handleSubmit = async (payload: { username: string; password: string }) => {
   submitError.value = ''
@@ -34,7 +39,7 @@ const handleSubmit = async (payload: { username: string; password: string }) => 
       title: 'Успех',
       message: 'Вы успешно вошли в систему.',
     })
-    await refreshNuxtData('auth-session')
+    session.value = { authenticated: true }
     const redirect = route.query.redirect as string | undefined
     await navigateTo(redirect || '/movies')
   } catch (error: any) {

@@ -9,7 +9,7 @@
         alt="Постер фильма"
       />
       <div class="movie-info__content">
-        <h1 class="movie-info__title">{{ movie.title }}</h1>
+        <h2 class="movie-info__title">{{ movie.title }}</h2>
         <p class="movie-info__description">{{ movie.description }}</p>
         <p class="movie-info__meta">
           Год: {{ movie.year }}<br />
