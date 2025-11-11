@@ -1,6 +1,5 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
 
   modules: [
     '@nuxt/eslint',
@@ -21,6 +20,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { redirect: { to: '/movies', statusCode: 308 } },
-    '/auth': { redirect: { to: '/auth/login', statusCode: 308 } }
+    '/auth': { redirect: { to: '/auth/login', statusCode: 308 } },
   },
 })
