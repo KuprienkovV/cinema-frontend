@@ -1,75 +1,33 @@
-# Nuxt Minimal Starter
+Приложение на Nuxt 3 для каталога фильмов, сеансов и бронирований.
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Требования
 
-## Setup
+- Node.js 20 LTS (проверено на 20.11.1)
+- npm 10+
+- Запущенный backend с API (`http://localhost:3022` по умолчанию если взять .env из .env.example)
 
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Быстрый старт
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+npm install           # установка зависимостей
+npm run dev           # запуск dev-сервера http://localhost:3000
 ```
 
-## Production
-
-Build the application for production:
+Основные команды:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+npm run build         # сборка продакшен-версии
+npm run preview       # предпросмотр собранного проекта
+npm test              # запуск vitest (Nuxt Test Utils + happy-dom)
 ```
 
-Locally preview production build:
+## Тестирование
 
-```bash
-# npm
-npm run preview
+- Тесты выполнены на Vitest + @nuxt/test-utils.
+- Перед запуском убедитесь, что зависимости установлены (`npm install`).
+- Для одиночного прогона: `npm test -- --run`.
 
-# pnpm
-pnpm preview
+## Настройки и переменные
 
-# yarn
-yarn preview
+- `NUXT_PUBLIC_API_BASE` — базовый URL backend API (по умолчанию `http://localhost:3022`).
 
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
