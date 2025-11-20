@@ -1,54 +1,53 @@
 <template>
-    <header class="sessions-header">
-      <h2>{{ cinemaTitle }}</h2>
-    </header>
-
-    <section v-if="groupedSessions.length" class="sessions-groups">
-      <div
-        v-for="group in groupedSessions"
-        :key="group.dateKey"
-        class="sessions-group"
-      >
-        <header class="sessions-group__header">
-          <h2 class="sessions-group__title">{{ group.title }}</h2>
-        </header>
-
-        <DataTable
-          :items="group.rows"
-          :columns="columns"
-          item-key="id"
-          class="sessions-group__table"
-          :show-header="false"
+    <div class="sessions-page">
+      <header class="sessions-header">
+        <h2>{{ cinemaTitle }}</h2>
+      </header>
+      <section v-if="groupedSessions.length" class="sessions-groups">
+        <div
+          v-for="group in groupedSessions"
+          :key="group.dateKey"
+          class="sessions-group"
         >
-          <template #cell-poster="{ item }: { item: SessionRow }">
-            <NuxtImg
-              :src="`${config.public.apiBase}${item.posterImage}`"
-              class="poster"
-              width="60"
-              height="60"
-              alt="Постер фильма"
-            />
-          </template>
-          <template #cell-title="{ item }: { item: SessionRow }">
-            <span class="movie-title">{{ item.title }}</span>
-          </template>
-          <template #cell-times="{ item }: { item: SessionRow }">
-            <div class="times-grid">
-              <NuxtLink
-                v-for="session in item.sessions"
-                :key="session.id"
-                class="time-button"
-                :to="`/movie-sessions/${session.id}`"
-              >
-                {{ formatTime(session.startTime) }}
-              </NuxtLink>
-            </div>
-          </template>
-        </DataTable>
-      </div>
-    </section>
-
-    <p v-else class="empty-state">Сеансов нет</p>
+          <header class="sessions-group__header">
+            <h2 class="sessions-group__title">{{ group.title }}</h2>
+          </header>
+          <DataTable
+            :items="group.rows"
+            :columns="columns"
+            item-key="id"
+            class="sessions-group__table"
+            :show-header="false"
+          >
+            <template #cell-poster="{ item }: { item: SessionRow }">
+              <NuxtImg
+                :src="`${config.public.apiBase}${item.posterImage}`"
+                class="poster"
+                width="60"
+                height="60"
+                alt="Постер фильма"
+              />
+            </template>
+            <template #cell-title="{ item }: { item: SessionRow }">
+              <span class="movie-title">{{ item.title }}</span>
+            </template>
+            <template #cell-times="{ item }: { item: SessionRow }">
+              <div class="times-grid">
+                <NuxtLink
+                  v-for="session in item.sessions"
+                  :key="session.id"
+                  class="time-button"
+                  :to="`/movie-sessions/${session.id}`"
+                >
+                  {{ formatTime(session.startTime) }}
+                </NuxtLink>
+              </div>
+            </template>
+          </DataTable>
+        </div>
+      </section>
+      <p v-else class="empty-state">Сеансов нет</p>
+    </div>
 </template>
 
 <script setup lang="ts">

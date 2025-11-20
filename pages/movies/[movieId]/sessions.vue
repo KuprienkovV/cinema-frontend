@@ -12,8 +12,8 @@
         <h2 class="movie-info__title">{{ movie.title }}</h2>
         <p class="movie-info__description">{{ movie.description }}</p>
         <p class="movie-info__meta">
-          Год: {{ movie.year }}<br />
-          Продолжительность: {{ formatDuration(movie.lengthMinutes) }}<br />
+          Год: {{ movie.year }}<br>
+          Продолжительность: {{ formatDuration(movie.lengthMinutes) }}<br >
           Рейтинг: {{ movie.rating.toFixed(1) }}
         </p>
       </div>

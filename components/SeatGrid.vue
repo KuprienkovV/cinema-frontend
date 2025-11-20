@@ -1,6 +1,6 @@
 <template>
-<div class="seat-grid" v-if="rows && seatsPerRow" :style="gridTemplateStyle">
-    <div class="seat-grid__corner"></div>
+<div v-if="rows && seatsPerRow" class="seat-grid" :style="gridTemplateStyle">
+    <div class="seat-grid__corner"/>
     <div
       v-for="seatNumber in seatNumbers"
       :key="`col-${seatNumber}`"

@@ -10,7 +10,7 @@
         class="field__input"
         :value="modelValue"
         @input="onInput"
-      />
+      >
       <span v-if="error" class="field__icon">!</span>
     </div>
     <div class="field__error">
