@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { MovieSession, MovieSessionDetails } from '~/types/api'
+import { toApiError } from '~/utils/errors'
 
 type SessionEntity = MovieSession & Partial<Pick<MovieSessionDetails, 'seats' | 'bookedSeats'>>
 
@@ -8,7 +9,7 @@ interface SessionsState {
   byMovieId: Record<number, number[]>
   byCinemaId: Record<number, number[]>
   loading: boolean
-  error: unknown | null
+  error: string | null
 }
 
 const appendUnique = (list: number[], value: number) => {
@@ -67,9 +68,9 @@ export const useSessionsStore = defineStore('sessions', {
       try {
         const data = await $fetch<MovieSession[]>(`/api/movies/${movieId}/sessions`)
         this.upsertManyBase(data)
-      } catch (error: any) {
-        this.error =
-          error?.data?.message ?? error?.message ?? 'Не удалось загрузить сеансы фильма'
+      } catch (error: unknown) {
+        const apiError = toApiError(error, 'Не удалось загрузить сеансы фильма')
+        this.error = apiError.message
       } finally {
         this.loading = false
       }
@@ -84,9 +85,9 @@ export const useSessionsStore = defineStore('sessions', {
       try {
         const data = await $fetch<MovieSession[]>(`/api/cinemas/${cinemaId}/sessions`)
         this.upsertManyBase(data)
-      } catch (error: any) {
-        this.error =
-          error?.data?.message ?? error?.message ?? 'Не удалось загрузить сеансы кинотеатра'
+      } catch (error: unknown) {
+        const apiError = toApiError(error, 'Не удалось загрузить сеансы кинотеатра')
+        this.error = apiError.message
       } finally {
         this.loading = false
       }
@@ -102,9 +103,9 @@ export const useSessionsStore = defineStore('sessions', {
       try {
         const details = await $fetch<MovieSessionDetails>(`/api/movieSessions/${sessionId}`)
         this.upsertDetails(details)
-      } catch (error: any) {
-        this.error =
-          error?.data?.message ?? error?.message ?? 'Не удалось загрузить детали сеанса'
+      } catch (error: unknown) {
+        const apiError = toApiError(error, 'Не удалось загрузить детали сеанса')
+        this.error = apiError.message
       } finally {
         this.loading = false
       }

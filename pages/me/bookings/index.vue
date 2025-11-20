@@ -127,6 +127,7 @@ import { useBookingsStore } from '~/stores/bookings'
 import { useSessionsStore } from '~/stores/sessions'
 import { useMoviesStore } from '~/stores/movies'
 import { useCinemasStore } from '~/stores/cinemas'
+import { toApiError } from '~/utils/errors'
 
 interface BookingViewModel {
   booking: Booking
@@ -176,10 +177,11 @@ await useAsyncData('bookings-init', async () => {
         sessionsStore.ensureSessionDetails(booking.movieSessionId)
       )
     )
-  } catch (fetchError: any) {
+  } catch (fetchError: unknown) {
+    const apiError = toApiError(fetchError, 'Не удалось загрузить билеты.')
     toast.error({
       title: 'Ошибка',
-      message: fetchError?.data?.message ?? 'Не удалось загрузить билеты.',
+      message: apiError.message,
     })
   }
 })
@@ -198,7 +200,7 @@ watch(
   { immediate: false }
 )
 
-if (process.client) {
+if (import.meta.client) {
   onMounted(() => {
     timer = window.setInterval(() => {
       now.value = Date.now()
@@ -278,7 +280,7 @@ const pastBookings = computed(() =>
 const hasAnyBookings = computed(() => bookings.value.length > 0)
 const bookingsLoading = computed(() => loading.value && !bookings.value.length)
 
-if (process.client) {
+if (import.meta.client) {
   watch(
     enrichedBookings,
     (list) => {
@@ -351,10 +353,11 @@ const onPay = async (bookingId: string) => {
       title: 'Оплата успешна',
       message: response.message ?? 'Бронирование оплачено.',
     })
-  } catch (paymentError: any) {
+  } catch (paymentError: unknown) {
+    const apiError = toApiError(paymentError, 'Не удалось выполнить оплату.')
     toast.error({
       title: 'Ошибка оплаты',
-      message: paymentError?.data?.message ?? 'Не удалось выполнить оплату.',
+      message: apiError.message,
     })
   } finally {
     payLoadingId.value = null

@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import AuthForm from '~/components/auth/AuthForm.vue'
+import { toApiError } from '~/utils/errors'
 
 definePageMeta({
   layout: 'default',
@@ -47,9 +48,9 @@ const handleSubmit = async (payload: {
     })
     session.value = { authenticated: true }
     await navigateTo('/movies')
-  } catch (error: any) {
-    submitError.value =
-      error?.data?.message ?? 'Не удалось выполнить регистрацию. Попробуйте позже.'
+  } catch (error: unknown) {
+    const apiError = toApiError(error, 'Не удалось выполнить регистрацию. Попробуйте позже.')
+    submitError.value = apiError.message
   } finally {
     submitting.value = false
   }

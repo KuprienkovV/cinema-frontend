@@ -12,38 +12,38 @@
           <header class="sessions-group__header">
             <h2 class="sessions-group__title">{{ group.title }}</h2>
           </header>
-          <DataTable
-            :items="group.rows"
-            :columns="columns"
-            item-key="id"
-            class="sessions-group__table"
-            :show-header="false"
-          >
-            <template #cell-poster="{ item }: { item: SessionRow }">
-              <NuxtImg
-                :src="`${config.public.apiBase}${item.posterImage}`"
-                class="poster"
-                width="60"
-                height="60"
-                alt="Постер фильма"
-              />
-            </template>
-            <template #cell-title="{ item }: { item: SessionRow }">
-              <span class="movie-title">{{ item.title }}</span>
-            </template>
-            <template #cell-times="{ item }: { item: SessionRow }">
-              <div class="times-grid">
-                <NuxtLink
-                  v-for="session in item.sessions"
-                  :key="session.id"
-                  class="time-button"
-                  :to="`/movie-sessions/${session.id}`"
-                >
-                  {{ formatTime(session.startTime) }}
-                </NuxtLink>
-              </div>
-            </template>
-          </DataTable>
+        <DataTable
+          :items="group.rows"
+          :columns="columns"
+          item-key="id"
+          class="sessions-group__table"
+          :show-header="false"
+        >
+          <template #cell-poster="{ item }">
+            <NuxtImg
+              :src="`${config.public.apiBase}${toSessionRow(item).posterImage}`"
+              class="poster"
+              width="60"
+              height="60"
+              alt="Постер фильма"
+            />
+          </template>
+          <template #cell-title="{ item }">
+            <span class="movie-title">{{ toSessionRow(item).title }}</span>
+          </template>
+          <template #cell-times="{ item }">
+            <div class="times-grid">
+              <NuxtLink
+                v-for="session in toSessionRow(item).sessions"
+                :key="session.id"
+                class="time-button"
+                :to="`/movie-sessions/${session.id}`"
+              >
+                {{ formatTime(session.startTime) }}
+              </NuxtLink>
+            </div>
+          </template>
+        </DataTable>
         </div>
       </section>
       <p v-else class="empty-state">Сеансов нет</p>
@@ -160,6 +160,9 @@ const formatTime = (iso: string) => {
     minute: '2-digit',
   })
 }
+
+const toSessionRow = (item: Record<string, unknown>): SessionRow =>
+  item as unknown as SessionRow
 </script>
 
 <style scoped lang="scss">

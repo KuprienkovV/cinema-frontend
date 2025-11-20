@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import type { Booking, BookingPaymentResponse } from '~/types/api'
+import { toApiError } from '~/utils/errors'
 
 interface BookingsState {
   bookings: Booking[]
   loading: boolean
-  error: unknown | null
+  error: string | null
 }
 
 export const useBookingsStore = defineStore('bookings', {
@@ -41,9 +42,10 @@ export const useBookingsStore = defineStore('bookings', {
         const data = await $fetch<Booking[]>('/api/secure/me/bookings')
         this.bookings = data
         return data
-      } catch (error: any) {
-        this.error = error?.data?.message ?? error?.message ?? 'Не удалось загрузить бронирования'
-        throw error
+      } catch (error: unknown) {
+        const apiError = toApiError(error, 'Не удалось загрузить бронирования')
+        this.error = apiError.message
+        throw apiError
       } finally {
         this.loading = false
       }

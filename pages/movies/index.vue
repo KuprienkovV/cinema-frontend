@@ -6,26 +6,29 @@
       empty-text="Нет доступных фильмов"
       :show-header="true"
     >
-      <template #cell-poster="{ item }: { item: Movie }">
+      <template #cell-poster="{ item }">
         <NuxtImg
-          :src="`${config.public.apiBase}${item.posterImage}`"
+          :src="`${config.public.apiBase}${toMovie(item).posterImage}`"
           class="poster"
           width="60"
           height="60"
           alt="Постер фильма"
         />
       </template>
-      <template #cell-title="{ item }: { item: Movie }">
-        <span class="movie-title">{{ item.title }}</span>
+      <template #cell-title="{ item }">
+        <span class="movie-title">{{ toMovie(item).title }}</span>
       </template>
-      <template #cell-duration="{ item }: { item: Movie }">
-        {{ formatDuration(item.lengthMinutes) }}
+      <template #cell-duration="{ item }">
+        {{ formatDuration(toMovie(item).lengthMinutes) }}
       </template>
-      <template #cell-rating="{ item }: { item: Movie }">
-        {{ item.rating.toFixed(2) }}
+      <template #cell-rating="{ item }">
+        {{ toMovie(item).rating.toFixed(2) }}
       </template>
-      <template #cell-actions="{ item }: { item: Movie }">
-        <NuxtLink class="table-action-button" :to="`/movies/${item.id}/sessions`">
+      <template #cell-actions="{ item }">
+        <NuxtLink
+          class="table-action-button"
+          :to="`/movies/${toMovie(item).id}/sessions`"
+        >
           Посмотреть сеансы
         </NuxtLink>
       </template>
@@ -60,6 +63,8 @@ const columns: TableColumn[] = [
   { key: 'rating', label: 'Рейтинг', align: 'center' },
   { key: 'actions', label: '', align: 'center', width: 220 },
 ]
+
+const toMovie = (item: Record<string, unknown>): Movie => item as unknown as Movie
 
 const formatDuration = (minutes: number) => {
   const hrs = Math.floor(minutes / 60)

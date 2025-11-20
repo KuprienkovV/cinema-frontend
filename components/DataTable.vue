@@ -57,12 +57,6 @@ const props = defineProps<{
   showHeader?: boolean
 }>()
 
-defineSlots<
-  Record<`cell-${string}`, (props: { item: any }) => any> & {
-    default?: (props: { item: any }) => any
-  }
->()
-
 const itemsList = computed(() => props.items as Array<Record<string, unknown>>)
 const columnsList = computed(() => props.columns)
 const emptyTextComputed = computed(() => props.emptyText ?? 'Нет данных')

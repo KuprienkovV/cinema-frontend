@@ -13,17 +13,17 @@
 
     <SeatGrid
       v-if="session.seats"
+      v-model="selectedSeats"
       class="seat-selector"
       :rows="session.seats.rows"
       :seats-per-row="session.seats.seatsPerRow"
       :booked-seats="session.bookedSeats"
-      v-model="selectedSeats"
       :interactive="isAuthorized"
       @booked-seat-click="handleBookedSeatClick"
     />
 
     <div v-if="session.seats" class="actions">
-      <div class="selected-info" v-if="isAuthorized">
+      <div v-if="isAuthorized" class="selected-info">
         <span v-if="selectedSeats.length">
           Вы выбрали:
           <strong>
@@ -65,12 +65,12 @@ import type { Seat } from '~/types/api'
 import { useSessionsStore } from '~/stores/sessions'
 import { useMoviesStore } from '~/stores/movies'
 import { useCinemasStore } from '~/stores/cinemas'
+import { toApiError } from '~/utils/errors'
 
 definePageMeta({
   title: 'Выбор мест',
 })
 
-const config = useRuntimeConfig()
 const route = useRoute()
 const sessionId = computed(() => Number(route.params.movieSessionId))
 
@@ -162,10 +162,11 @@ const bookSelectedSeats = async () => {
     selectedSeats.value = []
     await sessionsStore.ensureSessionDetails(session.value.id, { force: true })
     await navigateTo('/me/bookings')
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const apiError = toApiError(error, 'Не удалось забронировать места.')
     toast.error({
       title: 'Ошибка',
-      message: error?.data?.message ?? 'Не удалось забронировать места.',
+      message: apiError.message,
     })
   } finally {
     submitting.value = false

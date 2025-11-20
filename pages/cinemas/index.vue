@@ -6,14 +6,17 @@
       empty-text="Нет доступных кинотеатров"
       :show-header="true"
     >
-      <template #cell-name="{ item }: { item: Cinema }">
-        <span class="cinema-name">{{ item.name }}</span>
+      <template #cell-name="{ item }">
+        <span class="cinema-name">{{ toCinema(item).name }}</span>
       </template>
-      <template #cell-address="{ item }: { item: Cinema }">
-        {{ item.address }}
+      <template #cell-address="{ item }">
+        {{ toCinema(item).address }}
       </template>
-      <template #cell-actions="{ item }: { item: Cinema }">
-        <NuxtLink class="table-action-button" :to="`/cinemas/${item.id}/sessions`">
+      <template #cell-actions="{ item }">
+        <NuxtLink
+          class="table-action-button"
+          :to="`/cinemas/${toCinema(item).id}/sessions`"
+        >
           Посмотреть сеансы
         </NuxtLink>
       </template>
@@ -45,6 +48,8 @@ const columns: TableColumn[] = [
   { key: 'address', label: 'Адрес', align: 'left' },
   { key: 'actions', label: '', align: 'center', width: 220 },
 ]
+
+const toCinema = (item: Record<string, unknown>): Cinema => item as unknown as Cinema
 </script>
 
 <style scoped lang="scss">

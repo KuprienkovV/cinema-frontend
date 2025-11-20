@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import AuthForm from '~/components/auth/AuthForm.vue'
+import { toApiError } from '~/utils/errors'
 
 definePageMeta({
   layout: 'default',
@@ -42,9 +43,12 @@ const handleSubmit = async (payload: { username: string; password: string }) => 
     session.value = { authenticated: true }
     const redirect = route.query.redirect as string | undefined
     await navigateTo(redirect || '/movies')
-  } catch (error: any) {
-    submitError.value =
-      error?.data?.message ?? 'Не удалось выполнить вход. Проверьте данные и попробуйте снова.'
+  } catch (error: unknown) {
+    const apiError = toApiError(
+      error,
+      'Не удалось выполнить вход. Проверьте данные и попробуйте снова.'
+    )
+    submitError.value = apiError.message
   } finally {
     submitting.value = false
   }

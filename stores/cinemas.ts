@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import type { Cinema } from '~/types/api'
+import { toApiError } from '~/utils/errors'
 
 interface CinemasState {
   cinemas: Cinema[]
   loading: boolean
-  error: unknown | null
+  error: string | null
 }
 
 export const useCinemasStore = defineStore('cinemas', {
@@ -24,8 +25,9 @@ export const useCinemasStore = defineStore('cinemas', {
       try {
         const data = await $fetch<Cinema[]>('/api/cinemas')
         this.cinemas = data
-      } catch (error: any) {
-        this.error = error?.data?.message ?? error?.message ?? 'Не удалось загрузить кинотеатры'
+      } catch (error: unknown) {
+        const apiError = toApiError(error, 'Не удалось загрузить кинотеатры')
+        this.error = apiError.message
       } finally {
         this.loading = false
       }

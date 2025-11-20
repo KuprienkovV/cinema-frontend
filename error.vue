@@ -17,15 +17,17 @@
 </template>
 
 <script setup lang="ts">
+import type { ApiError } from '~/utils/errors'
+
 const props = defineProps<{
-  error: any
+  error: ApiError | null
 }>()
 
 const errorMessage = computed(() => {
   if (!props.error) {
     return 'Неизвестная ошибка.'
   }
-  return props.error.message || 'Неизвестная ошибка.'
+  return props.error?.message ?? 'Неизвестная ошибка.'
 })
 
 const onRetry = () => {

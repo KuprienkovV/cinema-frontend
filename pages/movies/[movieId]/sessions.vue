@@ -36,13 +36,13 @@
           class="sessions-group__table"
           :show-header="false"
         >
-          <template #cell-cinema="{ item }: { item: SessionRow }">
-            <span class="cinema-name">{{ item.cinemaName }}</span>
+          <template #cell-cinema="{ item }">
+            <span class="cinema-name">{{ toSessionRow(item).cinemaName }}</span>
           </template>
-          <template #cell-times="{ item }: { item: SessionRow }">
+          <template #cell-times="{ item }">
             <div class="times-grid">
               <NuxtLink
-                v-for="session in item.sessions"
+                v-for="session in toSessionRow(item).sessions"
                 :key="session.id"
                 class="time-button"
                 :to="`/movie-sessions/${session.id}`"
@@ -167,6 +167,9 @@ const formatDuration = (minutes: number) => {
   const mins = minutes % 60
   return `${hrs}:${mins.toString().padStart(2, '0')}`
 }
+
+const toSessionRow = (item: Record<string, unknown>): SessionRow =>
+  item as unknown as SessionRow
 </script>
 
 <style scoped lang="scss">

@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import type { Movie } from '~/types/api'
+import { toApiError } from '~/utils/errors'
 
 interface MoviesState {
   movies: Movie[]
   loading: boolean
-  error: unknown | null
+  error: string | null
 }
 
 export const useMoviesStore = defineStore('movies', {
@@ -24,8 +25,9 @@ export const useMoviesStore = defineStore('movies', {
       try {
         const data = await $fetch<Movie[]>('/api/movies')
         this.movies = data
-      } catch (error: any) {
-        this.error = error?.data?.message ?? error?.message ?? 'Не удалось загрузить фильмы'
+      } catch (error: unknown) {
+        const apiError = toApiError(error, 'Не удалось загрузить фильмы')
+        this.error = apiError.message
       } finally {
         this.loading = false
       }
