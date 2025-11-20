@@ -4,7 +4,8 @@
 
 - Node.js 20 LTS (проверено на 20.11.1)
 - npm 10+
-- Запущенный backend с API (`http://localhost:3022` по умолчанию если взять .env из .env.example)
+- Запущенный backend с API - можно развернуть локально из https://github.com/KuprienkovV/cinema-backend
+- Файл .env с адресом API - `http://localhost:3022` по умолчанию (можно скопировать из .env.example)
 
 ## Быстрый старт
 
