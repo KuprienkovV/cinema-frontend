@@ -150,7 +150,9 @@ const onSeatClick = (rowNumber: number, seatNumber: number) => {
   cursor: not-allowed;
 }
 
-.seat--selected {
+
+.seat--selected,
+.seat--selected:hover:not(.seat--booked) {
   background-color: #154163;
 }
 
