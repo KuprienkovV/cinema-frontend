@@ -74,10 +74,7 @@ definePageMeta({
 const route = useRoute()
 const sessionId = computed(() => Number(route.params.movieSessionId))
 
-const { data: authData } = await useAsyncData('auth-session-status', () =>
-  $fetch<{ authenticated: boolean }>('/api/auth/session')
-)
-const isAuthorized = computed(() => authData.value?.authenticated ?? false)
+const { isAuthenticated: isAuthorized } = useAuthSession()
 
 const sessionsStore = useSessionsStore()
 const moviesStore = useMoviesStore()

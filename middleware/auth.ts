@@ -5,19 +5,11 @@ export default defineNuxtRouteMiddleware(async (to) => {
       query: { redirect: to.fullPath },
     })
 
-  const session = useState<{ authenticated: boolean }>('auth-session')
+  const { isAuthenticated, ensureAuthSession } = useAuthSession()
 
-  if (session.value === undefined) {
-    try {
-      const headers = import.meta.server ? useRequestHeaders(['cookie']) : undefined
-      const data = await $fetch<{ authenticated: boolean }>('/api/auth/session', { headers })
-      session.value = data
-    } catch {
-      session.value = { authenticated: false }
-    }
-  }
+  await ensureAuthSession()
 
-  if (!session.value?.authenticated) {
+  if (!isAuthenticated.value) {
     return redirectToLogin()
   }
 })

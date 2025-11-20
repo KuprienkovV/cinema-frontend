@@ -27,8 +27,7 @@ const navLinks = [
   { route: '/me/bookings', text: 'Мои билеты' },
 ]
 
-const session = useState<{ authenticated: boolean }>('auth-session')
-const isAuthorized = computed(() => Boolean(session.value?.authenticated))
+const { isAuthenticated: isAuthorized, clearAuthSession } = useAuthSession()
 
 const toast = useToast()
 
@@ -38,7 +37,7 @@ const logout = async () => {
     title: 'Выход',
     message: 'Вы успешно вышли из системы.',
   })
-  session.value = { authenticated: false }
+  clearAuthSession()
   await navigateTo('/movies')
 }
 </script>

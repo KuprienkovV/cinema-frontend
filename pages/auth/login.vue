@@ -22,9 +22,9 @@ const route = useRoute()
 const toast = useToast()
 const submitting = ref(false)
 const submitError = ref('')
-const session = useState<{ authenticated: boolean }>('auth-session')
+const { session, isAuthenticated } = useAuthSession()
 
-if (session.value?.authenticated) {
+if (isAuthenticated.value) {
   await navigateTo('/movies')
 }
 
